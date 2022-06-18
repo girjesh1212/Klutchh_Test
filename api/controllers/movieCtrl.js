@@ -25,6 +25,7 @@ module.exports.fetchMovies = (req, res) => {
     Movie.find()
         .limit(20)
         .skip(skip)
+        .select('name rating')
         .exec((err, docs) => {
             if (err) {
                 return res.status(400).json({ success: false, error: 'Database error: unable to find movies, please retry' });
@@ -53,6 +54,7 @@ module.exports.rateMovie = (req, res) => {
     }
 
     Movie.findById(req.params.movieId)
+        .select('name rating')
         .exec((err, movie) => {
             if (err) {
                 return res.json({ success: false, error: 'Database error while fetching' });
